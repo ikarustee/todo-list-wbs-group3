@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todoApp.css">
+    <title>TO DO APP</title>
+</head>
+<body>
+    <div class ="wrapper">
+    <header>
+        <div id="page-banner">
+        <h1 class="title"> TODO </h1>   
+    </header>
+
+        <div id = "todo-list"></div>
+        <h2>All todos:</h2>
+
+        <ul>
+            <li class="todo-item">Go to field</li>
+            <span class="todo-status" >Pending</span>
+            <button class="todo-del">X</button> <button class="todo-edit">Edit</button>
+        </ul>
+
+        <!--
+            may be del all button
+        -->
+            
+        <form id = "todo-uinput">
+            <input type="text" name="" id="todo-text" required minlength="6">
+            <button id = "todo-add">ADD</button>
+        </form>
+
+        <button id = "todo-delall">Delete All</button>
+    </div>
+
+</body>
+
+<script src="main.js"></script>
+</html>
