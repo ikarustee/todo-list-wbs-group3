@@ -15,8 +15,8 @@ form.addEventListener('submit', e => {
 
 editBtn.addEventListener('click', e => { /*tanyas logic*/ })
 delAllBtn.addEventListener('click', e => { delTODO(""); }) 
-/* delBtn.addEventListener('click', e => { delTODO(e.target.id); }) 
- */
+// delBtn.addEventListener('click', e => { delTODO(e.target.id); }) 
+
 
 
             /*+++++++++++++ Start of Model +++++++++++++++++ */
@@ -36,10 +36,11 @@ function addTODO(userInput){
     updateScreen();
 }
 
-// delet todo
+// delete todo
 
 function delTODO(todoID) {
-    if(todoID=="") todoArray=[];
+    if(todoID=="") 
+        todoArray=[];
         if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
             alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
             updateScreen();
@@ -59,28 +60,33 @@ function statusTODO(todoID) {
             }
     })
     }
+
     
-    function editTODO(todoID){
-        console.log("I ama there hahahah")
-        //Tanya logic console.log("I ama there hahahah")
-    }
+/* Edit function */     
+function editTODO(todoID){
+    // console.log("I ama there hahahah")
+    
+}
 
 
                 /*+++++++++++++ Start of view part++++++++++++++++++ */
 
 //update page
-function updateScreen()
-    {
-        document.querySelector("#todo-text").value = "";
-        ul.innerHTML="";
-        todoArray.forEach(el => {
-        ul.innerHTML+= `<li class = "todo-items" id = ${el.id}> ${el.text} </li>
-                        <span class = "todo-status" id = ${el.id}>${el.todoStatus?"Complete":"Pending"}</span>
-                        <button class="todo-del" id = ${el.id} > X </button> <button class="todo-edit" id = ${el.id}> Edit </button>
-                        `
+function updateScreen() {
+    document.querySelector("#todo-text").value = "";
+    ul.innerHTML="";
+    todoArray.forEach(el => {
+        ul.innerHTML+= `<li class = "todo-items" id ="${el.id}"> ${el.text} </li>
+        <span class = "todo-status" id = "${el.id}">${el.todoStatus?"Complete":"Pending"}</span>
+        <button class="todo-del" id ="${el.id}" > X </button> <button class="todo-edit" id = ${el.id}> Edit </button>
+        `
     });
-    
-    document.querySelector(".todo-del").addEventListener('click', e => {delTODO(e.target.id);}) 
+    const delBtn = document.querySelectorAll(".todo-del")
+    for (let i = 0; i < delBtn.length; i++) {
+        delBtn[i].addEventListener('click', e => {delTODO(e.target.id);})
+    }
+    /* <-- This function did not work because. DelBtn was not defined and it was not in a loop --> */
+    // document.querySelector(".todo-del").addEventListener('click', e => {delTODO(e.target.id);}) 
     document.querySelector(".todo-edit").addEventListener('click', e => {editTODO(e.target.id);}) 
     document.querySelector(".todo-status").addEventListener('click', e => {statusTODO(e.target.id);})   
 }
