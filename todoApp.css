@@ -1,0 +1,18 @@
+body {
+    padding: 4em 6em;
+}
+ul {
+    list-style:none;
+    padding-left:0;
+}
+li[class^="todo"] {
+    max-width:400px;
+    margin: 8px 0;
+}
+li.todo--done {
+    background-image: linear-gradient(90deg, lightgrey, lightgrey);
+    background-size: auto 1px;
+    background-repeat: repeat-x;
+    background-position-y: 10px;
+    color:rgb(128, 128, 128)
+}
