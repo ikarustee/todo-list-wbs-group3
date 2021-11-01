@@ -1,9 +1,8 @@
 const ul = document.querySelector("ul")
 const delAllBtn= document.querySelector("#todo-delall")
- 
-const editBtn = document.querySelector('.todo-edit') 
 const form = document.querySelector("#todo-uinput")
 let elstatus;
+
  /*+++++++++++++ All events +++++++++++++++++ */
 
 form.addEventListener('submit', e => {
@@ -13,19 +12,37 @@ form.addEventListener('submit', e => {
     updateScreen();
 })
 
-editBtn.addEventListener('click', e => { /*tanyas logic*/ })
 delAllBtn.addEventListener('click', e => { delTODO(""); }) 
-/* delBtn.addEventListener('click', e => { delTODO(e.target.id); }) 
- */
+// delBtn.addEventListener('click', e => { delTODO(e.target.id); }) 
+
 
 
             /*+++++++++++++ Start of Model +++++++++++++++++ */
  
  //sample data
 
-todoArray = [{ id: 25262, text: "blabla", todoStatus: true },
-{ id: 25522, text: "blabla", todoStatus: false },
-{ id: 255622, text: "blabla", todoStatus: true }];
+let todoArray = [
+    { 
+        id: 25262, 
+        text: "Water the plants", 
+        todoStatus: false 
+    },
+
+    { 
+        id: 25522, 
+        text: "Feed the cat", 
+        todoStatus: true 
+    },
+
+    { 
+        id: 255622, 
+        text: "Learn javascript", 
+        todoStatus: false 
+    }
+    ];
+
+//     
+let editMode = null
 
 
         /*   //  ++++++++Controller: will manipulate data given by user+++++++++ */
@@ -36,20 +53,37 @@ function addTODO(userInput){
     updateScreen();
 }
 
-// delet todo
+// delete todo
 
 function delTODO(todoID) {
-    if(todoID=="") todoArray=[];
-        if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
-            alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
-            updateScreen();
-        }
-        else {
-            todoArray = todoArray.filter(el => el.id != todoID);
-            updateScreen();
-        }
+    if(todoID=="") 
+        todoArray=[];
+    if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
+        alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
+        updateScreen();
     }
+    else {
+        todoArray = todoArray.filter(el => el.id != todoID);
+        updateScreen();
+    }
+}
 
+// Edit function
+/* <-- Causes Error on line 77 --> */      
+function editTODO(todoID, el){
+    // console.log('Edit button')
+    if(todoID === editMode) {
+        console.log('no edit mode')
+        const newText = document.querySelector('.edit-todo').innerText;
+        const updatedTodo = todoArray[id]
+        updatedTodo = newText
+        todoArray.splice(id, 1, updatedTodo)
+        editMode = null
+    } else {
+        editMode = todoID
+    }
+    updateScreen()
+}
 
 function statusTODO(todoID) {
         todoArray.forEach(el => {
@@ -59,29 +93,35 @@ function statusTODO(todoID) {
             }
     })
     }
-    
-    function editTODO(todoID){
-        console.log("I ama there hahahah")
-        //Tanya logic console.log("I ama there hahahah")
-    }
 
-
-                /*+++++++++++++ Start of view part++++++++++++++++++ */
+/*+++++++++++++ Start of view part++++++++++++++++++ */
 
 //update page
-function updateScreen()
-    {
-        document.querySelector("#todo-text").value = "";
-        ul.innerHTML="";
-        todoArray.forEach(el => {
-        ul.innerHTML+= `<li class = "todo-items" id = ${el.id}> ${el.text} </li>
-                        <span class = "todo-status" id = ${el.id}>${el.todoStatus?"Complete":"Pending"}</span>
-                        <button class="todo-del" id = ${el.id} > X </button> <button class="todo-edit" id = ${el.id}> Edit </button>
-                        `
+function updateScreen() {
+    document.querySelector("#todo-text").value = "";
+    ul.innerHTML="";
+    todoArray.forEach(el => {
+        ul.innerHTML+= `
+        <li class = "${el.todoStatus ? "todo--done" : "todo"}" id ="${el.id}">
+        ${el.id === editMode ? 
+                `<span class="edit-todo" contenteditable> ${el.text} </span><br>` 
+            :   `<span class="todo"> ${el.text} </span><br>`}
+            <span class="todo-status" id = "${el.id}">${el.todoStatus?"Complete":"Pending"}</span>
+            <button class="todo-del" id ="${el.id}" > X </button> <button class="todo-edit" id = ${el.id}> Edit </button>
+        </li>
+        `
     });
+    const delBtn = document.querySelectorAll(".todo-del")
+    for (let i = 0; i < delBtn.length; i++) {
+        delBtn[i].addEventListener('click', e => {delTODO(e.target.id);})
+    }
+    /* <-- This function did not work because. DelBtn was not defined and it was not in a loop --> */
+    // document.querySelector(".todo-del").addEventListener('click', e => {delTODO(e.target.id);})
     
-    document.querySelector(".todo-del").addEventListener('click', e => {delTODO(e.target.id);}) 
-    document.querySelector(".todo-edit").addEventListener('click', e => {editTODO(e.target.id);}) 
+    const editBtn = document.querySelectorAll('.todo-edit') 
+    for (let i = 0; i < editBtn.length; i++) {
+        editBtn[i].addEventListener('click', e => editTODO(e.target))
+    } 
     document.querySelector(".todo-status").addEventListener('click', e => {statusTODO(e.target.id);})   
 }
 
