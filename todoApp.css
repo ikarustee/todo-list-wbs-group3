@@ -16,3 +16,7 @@ li.todo--done {
     background-position-y: 10px;
     color:rgb(128, 128, 128)
 }
+.edit-todo {
+    border: 1px #aaa solid;
+    padding: 4px;
+}
