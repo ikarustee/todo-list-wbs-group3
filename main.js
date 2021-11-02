@@ -6,7 +6,6 @@ let elstatus;
  /*+++++++++++++ All events +++++++++++++++++ */
 
 form.addEventListener('submit', e => {
-
     e.preventDefault();
     addTODO(document.getElementById('todo-text').value);
     updateScreen();
@@ -17,7 +16,7 @@ delAllBtn.addEventListener('click', e => { delTODO(""); })
 
 
 
-            /*+++++++++++++ Start of Model +++++++++++++++++ */
+/*+++++++++++++ Start of Model +++++++++++++++++ */
  
  //sample data
 
@@ -45,7 +44,7 @@ let todoArray = [
 let editMode = null
 
 
-        /*   //  ++++++++Controller: will manipulate data given by user+++++++++ */
+/*   //  ++++++++Controller: will manipulate data given by user+++++++++ */
 
 
 function addTODO(userInput){
@@ -69,15 +68,18 @@ function delTODO(todoID) {
 }
 
 // Edit function
-/* <-- Causes Error on line 77 --> */      
-function editTODO(todoID, el){
+function editTODO(todoID){
     // console.log('Edit button')
-    if(todoID === editMode) {
+    if(todoID == editMode) {
         console.log('no edit mode')
-        const newText = document.querySelector('.edit-todo').innerText;
-        const updatedTodo = todoArray[id]
-        updatedTodo = newText
-        todoArray.splice(id, 1, updatedTodo)
+        const indexID= todoArray.findIndex(el => el.id == todoID)     
+        const newText = document.querySelector('.todotext.edit').innerText;
+        let updatedTodo = todoArray[indexID]
+        console.log("updatesARRAY" + updatedTodo)
+        console.log("TODO ARRAY" + updatedTodo.text)
+        updatedTodo.text = newText
+        todoArray.splice(indexID, 1, updatedTodo)
+        console.log("Hi am " + updatedTodo.text)
         editMode = null
     } else {
         editMode = todoID
@@ -102,12 +104,14 @@ function updateScreen() {
     ul.innerHTML="";
     todoArray.forEach(el => {
         ul.innerHTML+= `
-        <li class = "${el.todoStatus ? "todo--done" : "todo"}" id ="${el.id}">
-        ${el.id === editMode ? 
-                `<span class="edit-todo" contenteditable> ${el.text} </span><br>` 
-            :   `<span class="todo"> ${el.text} </span><br>`}
+        <li class="todo id ="${el.id}">
+        ${el.id == editMode ? `<span class="todotext edit" contenteditable> ${el.text} </span>` : `<span class="todotext ${el.todoStatus ? "todo--done" : "todo"}"> ${el.text} </span>`}
             <span class="todo-status" id = "${el.id}">${el.todoStatus?"Complete":"Pending"}</span>
-            <button class="todo-del" id ="${el.id}" > X </button> <button class="todo-edit" id = ${el.id}> Edit </button>
+            <button class="todo-del" id ="${el.id}" > X </button> 
+        ${el.id == editMode ?
+            `<button class="todo-edit" id = ${el.id}> Save </button>`
+            : `<button class="todo-edit" id = ${el.id}> Edit </button>`    
+        }
         </li>
         `
     });
@@ -115,12 +119,10 @@ function updateScreen() {
     for (let i = 0; i < delBtn.length; i++) {
         delBtn[i].addEventListener('click', e => {delTODO(e.target.id);})
     }
-    /* <-- This function did not work because. DelBtn was not defined and it was not in a loop --> */
-    // document.querySelector(".todo-del").addEventListener('click', e => {delTODO(e.target.id);})
-    
+  
     const editBtn = document.querySelectorAll('.todo-edit') 
     for (let i = 0; i < editBtn.length; i++) {
-        editBtn[i].addEventListener('click', e => editTODO(e.target))
+        editBtn[i].addEventListener('click', e => editTODO(e.target.id))
     } 
     document.querySelector(".todo-status").addEventListener('click', e => {statusTODO(e.target.id);})   
 }
