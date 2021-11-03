@@ -101,7 +101,7 @@ function editTODO(todoID){
     // updateScreen() replaced with localstorage function
     addToLocalStorage(todoArray)
 }
-
+// Toggle status todo
 function statusTODO(todoID) {
     todoArray.forEach(el => {
         if(el.id == todoID) {
