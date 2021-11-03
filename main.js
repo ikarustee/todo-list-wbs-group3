@@ -8,11 +8,10 @@ let elstatus;
 form.addEventListener('submit', e => {
     e.preventDefault();
     addTODO(document.getElementById('todo-text').value);
-    updateScreen();
+    addToLocalStorage(todoArray)
 })
 
 delAllBtn.addEventListener('click', e => { delTODO(""); }) 
-// delBtn.addEventListener('click', e => { delTODO(e.target.id); }) 
 
 
 
@@ -30,7 +29,7 @@ let todoArray = [
     { 
         id: 25522, 
         text: "Feed the cat", 
-        todoStatus: true 
+        todoStatus: false 
     },
 
     { 
@@ -40,16 +39,29 @@ let todoArray = [
     }
     ];
 
-//     
+// needed to switch between edit and static mode
 let editMode = null
 
+// +++++ Local storage function +++++ //
+function addToLocalStorage(todoArray) {
+    localStorage.setItem('todoArray', JSON.stringify(todoArray))
+    updateScreen()
+}
+
+function getLocalStorage() {
+    const localTodos = localStorage.getItem('todoArray')
+    if(localTodos) {
+        todoArray = JSON.parse(localTodos)
+        updateScreen()
+    }
+}
+getLocalStorage()
 
 /*   //  ++++++++Controller: will manipulate data given by user+++++++++ */
-
-
 function addTODO(userInput){
     todoArray.push({ id: Math.floor(Math.random() * 10000), text: userInput, todoStatus: false });
-    updateScreen();
+    // updateScreen();
+    addToLocalStorage(todoArray)
 }
 
 // delete todo
@@ -59,11 +71,13 @@ function delTODO(todoID) {
         todoArray=[];
     if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
         alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
-        updateScreen();
+        // updateScreen();
+        addToLocalStorage(todoArray)
     }
     else {
         todoArray = todoArray.filter(el => el.id != todoID);
-        updateScreen();
+        // updateScreen();
+        addToLocalStorage(todoArray)
     }
 }
 
@@ -71,30 +85,31 @@ function delTODO(todoID) {
 function editTODO(todoID){
     // console.log('Edit button')
     if(todoID == editMode) {
-        console.log('no edit mode')
-        const indexID= todoArray.findIndex(el => el.id == todoID)     
+        // console.log('no edit mode')
+        const indexID = todoArray.findIndex(el => el.id == todoID)     
         const newText = document.querySelector('.todotext.edit').innerText;
         let updatedTodo = todoArray[indexID]
-        console.log("updatesARRAY" + updatedTodo)
-        console.log("TODO ARRAY" + updatedTodo.text)
+        // console.log("updatesARRAY" + updatedTodo)
+        // console.log("TODO ARRAY" + updatedTodo.text)
         updatedTodo.text = newText
         todoArray.splice(indexID, 1, updatedTodo)
-        console.log("Hi am " + updatedTodo.text)
+        // console.log("Hi am " + updatedTodo.text)
         editMode = null
     } else {
         editMode = todoID
     }
-    updateScreen()
+    // updateScreen() replaced with localstorage function
+    addToLocalStorage(todoArray)
 }
-
+// Toggle status todo
 function statusTODO(todoID) {
-        todoArray.forEach(el => {
-            if (el.id == todoID) { 
-                el.todoStatus = !el.todoStatus;
-                updateScreen();
-            }
+    todoArray.forEach(el => {
+        if(el.id == todoID) {
+            el.todoStatus = !el.todoStatus
+            addToLocalStorage(todoArray)
+        }
     })
-    }
+}
 
 /*+++++++++++++ Start of view part++++++++++++++++++ */
 
@@ -104,14 +119,11 @@ function updateScreen() {
     ul.innerHTML="";
     todoArray.forEach(el => {
         ul.innerHTML+= `
-        <li class="todo id ="${el.id}">
-        ${el.id == editMode ? `<span class="todotext edit" contenteditable> ${el.text} </span>` : `<span class="todotext ${el.todoStatus ? "todo--done" : "todo"}"> ${el.text} </span>`}
-            <span class="todo-status" id = "${el.id}">${el.todoStatus?"Complete":"Pending"}</span>
-            <button class="todo-del" id ="${el.id}" > X </button> 
-        ${el.id == editMode ?
-            `<button class="todo-edit" id = ${el.id}> Save </button>`
-            : `<button class="todo-edit" id = ${el.id}> Edit </button>`    
-        }
+        <li class="todo id="${el.id}">
+        <span id="${el.id}" class="check ${el.todoStatus ? "complete" : ""}"></span>
+        ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text} </span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text} </span>`}
+            ${el.id == editMode ? `<button class="todo-edit" id="${el.id}"> Save </button>` : `<button class="todo-edit" id ="${el.id}"> Edit </button>`}
+            <button class="todo-del" id="${el.id}" > X </button> 
         </li>
         `
     });
@@ -119,12 +131,17 @@ function updateScreen() {
     for (let i = 0; i < delBtn.length; i++) {
         delBtn[i].addEventListener('click', e => {delTODO(e.target.id);})
     }
-  
     const editBtn = document.querySelectorAll('.todo-edit') 
     for (let i = 0; i < editBtn.length; i++) {
         editBtn[i].addEventListener('click', e => editTODO(e.target.id))
-    } 
-    document.querySelector(".todo-status").addEventListener('click', e => {statusTODO(e.target.id);})   
+    }
+    const checkBtn = document.querySelectorAll(".check")
+    for (let i = 0; i < checkBtn.length; i++) {
+        checkBtn[i].addEventListener('click', e => statusTODO(e.target.id))   
+    }
 }
 
-    updateScreen(); // for the first time loading of page
+updateScreen(); // for the first time loading of page
+
+// <button class="check ${el.todoStatus ? "complete" : ""}" id="${el.id}">${el.todoStatus?"Complete":"Pending"}</button>
+
