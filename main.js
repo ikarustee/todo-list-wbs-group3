@@ -7,7 +7,7 @@ let elstatus;
 
 form.addEventListener('submit', e => {
     e.preventDefault();
-    addTODO(document.getElementById('todo-text').value);
+    addTODO(document.getElementById('todo-text').value,  document.getElementById('todo-date').value);
     addToLocalStorage(todoArray)
 })
 
@@ -21,20 +21,23 @@ delAllBtn.addEventListener('click', e => { delTODO(""); })
 
 let todoArray = [
     { 
-        id: 25262, 
+        id: "25262", 
         text: "Water the plants", 
+        dueDate: "2021/11/1",
         todoStatus: false 
     },
 
     { 
-        id: 25522, 
+        id: "25522", 
         text: "Feed the cat", 
+        dueDate: "2021/11/21",
         todoStatus: false 
     },
 
     { 
-        id: 255622, 
+        id: "255622", 
         text: "Learn javascript", 
+        dueDate:"2021/11/10",
         todoStatus: false 
     }
     ];
@@ -58,9 +61,13 @@ function getLocalStorage() {
 getLocalStorage()
 
 /*   //  ++++++++Controller: will manipulate data given by user+++++++++ */
-function addTODO(userInput){
-    todoArray.push({ id: Math.floor(Math.random() * 10000), text: userInput, todoStatus: false });
-    // updateScreen();
+function addTODO(userInput, userDate){
+   //Add date and improved ID
+
+   if(userDate!= "") { 
+    todoArray.push({ id: Date.now() * Math.floor(Math.random()*1000) + Math.floor(Math.random()*10000).toString(16).substring(1) , dueDate: userDate, text: userInput, todoStatus: false });
+}
+else   todoArray.push({ id: Date.now() * Math.floor(Math.random()*1000) + Math.floor(Math.random()*10000).toString(16).substring(1) , dueDate: "Due date is not choosen", text: userInput, todoStatus: false });// updateScreen();
     addToLocalStorage(todoArray)
 }
 
@@ -89,11 +96,9 @@ function editTODO(todoID){
         const indexID = todoArray.findIndex(el => el.id == todoID)     
         const newText = document.querySelector('.todotext.edit').innerText;
         let updatedTodo = todoArray[indexID]
-        // console.log("updatesARRAY" + updatedTodo)
-        // console.log("TODO ARRAY" + updatedTodo.text)
         updatedTodo.text = newText
         todoArray.splice(indexID, 1, updatedTodo)
-        // console.log("Hi am " + updatedTodo.text)
+        
         editMode = null
     } else {
         editMode = todoID
@@ -121,9 +126,12 @@ function updateScreen() {
         ul.innerHTML+= `
         <li class="todo id="${el.id}">
         <span id="${el.id}" class="check ${el.todoStatus ? "complete" : ""}"></span>
-        ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text} </span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text} </span>`}
-            ${el.id == editMode ? `<button class="todo-edit" id="${el.id}"> Save </button>` : `<button class="todo-edit" id ="${el.id}"> Edit </button>`}
-            <button class="todo-del" id="${el.id}" > X </button> 
+        
+        ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text}</span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text}              is due by: ${el.dueDate}</span>`}
+            
+        ${el.id == editMode ? `<button class="todo-edit" id="${el.id}"> Save </button>` : `<button class="todo-edit" id ="${el.id}"> Edit </button>`}
+            
+        <button class="todo-del" id="${el.id}" > X </button> 
         </li>
         `
     });
