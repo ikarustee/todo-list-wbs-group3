@@ -24,6 +24,13 @@ let todoArray = [
         id: "25262", 
         text: "Water the plants", 
         dueDate: "2021/11/1",
+        subtodos: [
+            {
+                id: 252622,
+                text: 'remove brown leaves',
+                todoStatus: false
+            }
+        ], 
         todoStatus: false 
     },
 
@@ -31,6 +38,18 @@ let todoArray = [
         id: "25522", 
         text: "Feed the cat", 
         dueDate: "2021/11/21",
+        subtodos: [
+            {
+                id: 255221,
+                text: 'clean food bowl',
+                todoStatus: false
+            },
+            {
+                id: 255222,
+                text: 'renew water',
+                todoStatus: false
+            }
+        ],
         todoStatus: false 
     },
 
@@ -41,6 +60,8 @@ let todoArray = [
         todoStatus: false 
     }
     ];
+
+    
 
 // needed to switch between edit and static mode
 let editMode = null
@@ -125,13 +146,19 @@ function updateScreen() {
     todoArray.forEach(el => {
         ul.innerHTML+= `
         <li class="todo id="${el.id}">
+        <span class="maintask">
         <span id="${el.id}" class="check ${el.todoStatus ? "complete" : ""}"></span>
         
         ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text}</span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text}              is due by: ${el.dueDate}</span>`}
             
         ${el.id == editMode ? `<button class="todo-edit" id="${el.id}"> Save </button>` : `<button class="todo-edit" id ="${el.id}"> Edit </button>`}
-            
-        <button class="todo-del" id="${el.id}" > X </button> 
+        <button>+</button><input class="subtodo" type="text" placeholder="Add subtask"><br>
+        <button class="todo-del" id="${el.id}" > X </button>
+        </span> 
+        <ul>
+            ${el.subtodos.map(sub => `<li>${sub.text}</li>`).join('')}   
+        </ul> 
+
         </li>
         `
     });

@@ -75,6 +75,7 @@ li.subtodo {
     font-size: 14px;
     text-align: left;
 }
+input.subtodo {display: none;}
 .todotext {
     flex: 1 0 80%;
     border:1px solid transparent;
