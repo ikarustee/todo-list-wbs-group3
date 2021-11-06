@@ -3,7 +3,11 @@ const delAllBtn= document.querySelector("#todo-delall")
 const form = document.querySelector("#todo-uinput")
 let elstatus;
 
- /*+++++++++++++ All events +++++++++++++++++ */
+const filterInput = document.querySelector('#filterbytext')
+let filteredText = ''
+let showFinishedTodos = false
+
+/*+++++++++++++ All events +++++++++++++++++ */
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -116,18 +120,33 @@ function statusTODO(todoID) {
     })
 }
 
+// Filter items total
+const filterResults = (event) => {
+    filteredText = event.target.value
+    updateScreen()   
+}
+filterInput.addEventListener('keyup', filterResults)
+
 /*+++++++++++++ Start of view part++++++++++++++++++ */
 
 //update page
 function updateScreen() {
     document.querySelector("#todo-text").value = "";
+
+    // filter view // show todos by typing a search term into the second input field 
+    let todos = todoArray.filter(todo => todo.text.includes(filteredText))
+
+    document.querySelector('#total').innerText = todoArray.length
+    document.querySelector('#match').innerText = todos.length
+    document.querySelector('#completed').innerText = todoArray.filter(todo => todo.todoStatus).length
+
     ul.innerHTML="";
     todoArray.forEach(el => {
         ul.innerHTML+= `
         <li class="todo id="${el.id}">
         <span id="${el.id}" class="check ${el.todoStatus ? "complete" : ""}"></span>
         
-        ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text}</span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text}              is due by: ${el.dueDate}</span>`}
+        ${el.id == editMode ? `<span id="${el.id}" class="todotext edit" contenteditable> ${el.text}</span>` : `<span id="${el.id}" class="todotext ${el.todoStatus ? "todo--done" : ""}"> ${el.text} is due by: <span class="todo--date">${el.dueDate}</span></span>`}
             
         ${el.id == editMode ? `<button class="todo-edit" id="${el.id}"> Save </button>` : `<button class="todo-edit" id ="${el.id}"> Edit </button>`}
             
@@ -150,6 +169,3 @@ function updateScreen() {
 }
 
 updateScreen(); // for the first time loading of page
-
-// <button class="check ${el.todoStatus ? "complete" : ""}" id="${el.id}">${el.todoStatus?"Complete":"Pending"}</button>
-
