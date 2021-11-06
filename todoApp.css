@@ -68,6 +68,13 @@ li[class^="todo"] {
 li[class^="todo"]:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
+span.maintask {
+    flex: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+}
 ul.todo--subtodo {
     display: inline-block;
 }

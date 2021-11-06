@@ -158,7 +158,6 @@ function updateScreen() {
         <ul>
             ${el.subtodos.map(sub => `<li>${sub.text}</li>`).join('')}   
         </ul> 
-
         </li>
         `
     });
