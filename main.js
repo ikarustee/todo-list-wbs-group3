@@ -5,7 +5,7 @@ let elstatus;
 
 const filterInput = document.querySelector('#filterbytext')
 let filteredText = ''
-let showFinishedTodos = false
+
 
 /*+++++++++++++ All events +++++++++++++++++ */
 
@@ -135,9 +135,9 @@ function updateScreen() {
 
     // filter view // show todos by typing a search term into the second input field 
     let todos = todoArray.filter(todo => todo.text.includes(filteredText))
-
+    
     document.querySelector('#total').innerText = todoArray.length
-    document.querySelector('#match').innerText = todos.length
+    document.querySelector('#match').innerText = todos.length < todoArray.length ? todos.length : 0
     document.querySelector('#completed').innerText = todoArray.filter(todo => todo.todoStatus).length
 
     ul.innerHTML="";

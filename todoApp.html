@@ -21,7 +21,7 @@
             <button id = "todo-add">Add task</button>
         </form>
         <h3>Search todos:</h3>
-        <input type="text" name="" id="filterbytext" class="todoinput">
+        <input type="text" name="" id="filterbytext" class="todoinput" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search for ...'" placeholder="Search for ...">
         <p class="filterresults">Total tasks: <span id="total"></span> Found todos: <span id="match"></span> Completed todos: <span id="completed"></span></p>
         <h2>All todos:</h2>
 
