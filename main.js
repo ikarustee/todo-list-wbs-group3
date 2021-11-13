@@ -168,11 +168,13 @@ function updateScreen() {
     }
     // Prevent paragraph breaks when task is editable
     let editableField = document.querySelector('.todotext.edit')
+    if(editableField) {
     editableField.addEventListener('keypress', (e) => {
         if (e.which === 13) {
             e.preventDefault();
         }
     });
+    }
 }
 
 updateScreen(); // for the first time loading of page
