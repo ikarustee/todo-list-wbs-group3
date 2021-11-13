@@ -113,7 +113,8 @@ button,
 button[class^="todo-"],
 .todo-status {
     font-size: 14px;
-    flex-basis: 10%;
+    padding:0;
+    flex-basis: 32px;
     justify-items: flex-end;
 }
 .todo-status.complete {
@@ -138,23 +139,61 @@ button:hover,
 .check {
     cursor: pointer;
 }
+.check:hover {
+    transform:translateY(-2px)
+}
+.check::before {
+    content: '';
+    background-color: transparent;
+    position: relative;
+    top:0;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    visibility: hidden;
+    display: block;
+    border-radius: 8px;
+    padding-top: 0;
+    transform:translateY(100%);
+    transition: all 250ms ease-in-out;
+}
+.check:hover::before {
+    background-color: var(--completed2);
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    padding-top: 100%;
+    transform:translateY(0)
+}
+button.todo-edit,
+button.todo-save,
+button.todo-del {  
+    padding: 3px 4px;
+    transition: all 350ms ease-in-out;
+}
 button.todo-edit {
-    border: 1px solid var(--secondary);
     background-color:transparent;
     color:var(--secondary);
 }
 button.todo-edit:hover {
     background-color:var(--secondary);
     color:white;
+    fill:white;
 }
+
 button.todo-del {
-    background-color:transparent;
-    border: 1px solid #AC0000;
-    color:#AC0000;
+    background-color: transparent; 
+    color: #AC0000;
+    background-repeat: no-repeat;
 }
 button.todo-del:hover {
-   background-color:#AC0000;
-   color:white;
+    background-color:#AC0000;
+    color:white;
+}
+
+button.todo-edit svg,
+button.todo-del svg {
+    width:24px;
 }
 button#todo-add {
     background-color: white;
@@ -172,6 +211,7 @@ button#todo-add:hover {
 button#todo-delall {
     color: #AC0000;
     background-color:white;
+    font-size: 18px;;
     border: 2px solid #AC0000;
     margin: 1em 0;
     padding: 8px 16px;
