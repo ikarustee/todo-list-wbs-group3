@@ -75,11 +75,11 @@ function addTODO(userInput, userDate){
     updateScreen()
 }
 
-// delete todo
-
+// delete todos
 function delTODO(todoID) {
-    if(todoID=="") 
-    todoArray=[];
+    if(confirm('Really delete all?')) {
+        todoArray=[];
+    }
     if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
         alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
         // updateScreen();
