@@ -120,7 +120,8 @@ function statusTODO(todoID) {
             el.todoStatus = !el.todoStatus
         }
     })
-    document.querySelector(".todotext-"+todoID).classList.toggle("completed")
+    document.querySelector(".todotext-"+todoID).classList.toggle("todo--done")
+    document.querySelector(".check").classList.toggle("complete")
     console.log(".selector-"+todoID)
     addToLocalStorage(todoArray)
 }
