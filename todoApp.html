@@ -16,12 +16,12 @@
 
         <div id = "todo-list"></div>
         <form id = "todo-uinput">
-            <input id="todo-text" class="todoinput" type="text" name=""  required minlength="6" placeholder="Add new task ...">
+            <input id="todo-text" class="todoinput text" type="text" name=""  required minlength="6" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Add new task ...'" placeholder="Add new task ...">
             <input type="date" id= "todo-date">
-            <button id = "todo-add">Add task</button>
+            <button id = "todo-add">+</button>
         </form>
         <h3>Search todos:</h3>
-        <input type="text" name="" id="filterbytext" class="todoinput" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search for ...'" placeholder="Search for ...">
+        <input type="text" name="" id="filterbytext" class="todoinput filter" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search for ...'" placeholder="Search for ...">
         <p class="filterresults">Total tasks: <span id="total"></span> Found todos: <span id="match"></span> Completed todos: <span id="completed"></span></p>
         <h2>All todos:</h2>
 
