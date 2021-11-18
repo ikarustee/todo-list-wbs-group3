@@ -97,6 +97,7 @@ li[class^="todo"]:hover {
 .todotext.todo--done::before{
     border-bottom: 2px solid var(--secondary);
     width: 100%;
+    animation-fill-mode: forwards; 
 }
 
 .todotext.edit {
@@ -119,6 +120,10 @@ button[class^="todo-"],
 }
 .todo-status.complete {
     color:var(--completed2);
+}
+@keyframes stroke {
+    from {width:0}
+    to {width:100%}
 }
 .check {
     background-color:transparent;
@@ -158,6 +163,29 @@ button:hover,
     transition: all 250ms ease-in-out;
 }
 .check:hover::before {
+    background-color: var(--secondary);
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    padding-top: 100%;
+    transform:translateY(0)
+}
+.check.complete::before {
+    content: '';
+    background-color: transparent;
+    position: relative;
+    bottom:0;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    visibility: hidden;
+    display: block;
+    border-radius: 8px;
+    padding-top: 0;
+    transform:translateY(-100%);
+    transition: all 250ms ease-in-out;
+}
+.check.complete:hover::before {
     background-color: var(--completed2);
     opacity: 1;
     visibility: visible;
