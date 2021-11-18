@@ -122,7 +122,7 @@ function statusTODO(todoID) {
     })
     document.querySelector(".todotext-"+todoID).classList.toggle("todo--done")
     document.querySelector(".check-"+todoID).classList.toggle("complete")
-    console.log(".selector-"+todoID)
+    // console.log(".selector-"+todoID)
     addToLocalStorage(todoArray)
 }
 
@@ -150,7 +150,7 @@ function updateScreen() {
     todoArray.forEach(el => {
         ul.innerHTML+= `
         <li class="todo selector-${el.id}" id="${el.id}">
-        <span id="${el.id}" class="check check-${el.id}"></span>
+        <span id="${el.id}" class="check check-${el.id} ${el.todoStatus ? "complete" : ""}"></span>
         
         ${el.id == editMode ? `<span id="${el.id}" class="todotext todotext-${el.id} edit" contenteditable> ${el.text}</span>` : `<span id="${el.id}" class="todotext todotext-${el.id} ${el.todoStatus ? "todo--done" : ""}"> ${el.text} is due by: <span class="todo--date">${el.dueDate}</span></span>`}
         
