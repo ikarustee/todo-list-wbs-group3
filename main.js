@@ -77,8 +77,10 @@ function addTODO(userInput, userDate){
 
 // delete todos
 function delTODO(todoID) {
-    if(confirm('Really delete all?')) {
+    if(todoID == '') {
+        if(confirm('Really delete all?')){
         todoArray=[];
+    }
     }
     if (todoID !== "" && todoArray.filter(el => el.id == todoID).length === 0) {
         alert("Sorry item not found, Try again");//Should we be using a fucnction and call it?   
@@ -180,6 +182,7 @@ function updateScreen() {
         }
     });
     }
+    
 }
 
 updateScreen(); // for the first time loading of page
