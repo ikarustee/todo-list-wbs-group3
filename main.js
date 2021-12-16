@@ -27,21 +27,21 @@ let todoArray = [
     { 
         id: "25262", 
         text: "Water the plants", 
-        dueDate: "2021/11/1",
+        dueDate: "2021-11-1",
         todoStatus: false 
     },
     
     { 
         id: "25522", 
         text: "Feed the cat", 
-        dueDate: "2021/11/21",
+        dueDate: "2021-11-21",
         todoStatus: false 
     },
     
     { 
         id: "255622", 
         text: "Learn javascript", 
-        dueDate:"2021/11/10",
+        dueDate:"2021-11-10",
         todoStatus: false 
     }
 ];
@@ -70,7 +70,7 @@ function addTODO(userInput, userDate){
     
     if(userDate!= "") { 
         todoArray.unshift({ id: Date.now() * Math.floor(Math.random()*1000) + Math.floor(Math.random()*10000).toString(16).substring(1) , dueDate: userDate, text: userInput, todoStatus: false });
-    }   else   {todoArray.unshift({ id: Date.now() * Math.floor(Math.random()*1000) + Math.floor(Math.random()*10000).toString(16).substring(1) , dueDate: "Due date is not choosen", text: userInput, todoStatus: false });}// updateScreen();
+    }   else   {todoArray.unshift({ id: Date.now() * Math.floor(Math.random()*1000) + Math.floor(Math.random()*10000).toString(16).substring(1) , dueDate: "", text: userInput, todoStatus: false });}// updateScreen();
     addToLocalStorage(todoArray)
     updateScreen()
 }
