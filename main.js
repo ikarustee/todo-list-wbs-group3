@@ -124,6 +124,7 @@ function statusTODO(todoID) {
     document.querySelector(".todotext-"+todoID).classList.toggle("todo--done")
     document.querySelector(".check-"+todoID).classList.toggle("complete")
     // console.log(".selector-"+todoID)
+    updateScreen()
     addToLocalStorage(todoArray)
 }
 
